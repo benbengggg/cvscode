@@ -381,21 +381,21 @@
     }
 
     function ChangeYear() {
-      if (document.searchbox.YName.value == '99') {
-        document.getElementById('M99').disabled = "false";
-        document.getElementById('M99').selected = "true";
-        document.getElementById('MID').disabled = true;
-        document.getElementById('D99').disabled = "false";
-        document.getElementById('D99').selected = "true";
-        document.getElementById('DID').disabled = true;
-      } else {
-        document.getElementById('M99').disabled = "true";
-        document.searchbox.MName.options[11].selected = "true";
-        document.getElementById('MID').disabled = false;
-        document.getElementById('D99').disabled = "true";
-        document.searchbox.DName.options[30].selected = "true";
-        document.getElementById('DID').disabled = false;
-      }
+      //if (document.searchbox.YName.value == '99') {
+      //  document.getElementById('M99').disabled = "false";
+      //  document.getElementById('M99').selected = "true";
+      //  document.getElementById('MID').disabled = true;
+      //  document.getElementById('D99').disabled = "false";
+      //  document.getElementById('D99').selected = "true";
+      //  document.getElementById('DID').disabled = true;
+      //} else {
+      //  document.getElementById('M99').disabled = "true";
+      //  document.searchbox.MName.options[11].selected = "true";
+      //  document.getElementById('MID').disabled = false;
+      //  document.getElementById('D99').disabled = "true";
+      //  document.searchbox.DName.options[30].selected = "true";
+      //  document.getElementById('DID').disabled = false;
+      //}
     }
 
     function numerify(a) {
@@ -459,7 +459,10 @@
     }
 
     function GoQR() {
-	  
+	  //清除H2,H3
+	  document.getElementById("H2").innerHTML = "";
+	  document.getElementById("H3").innerHTML = "";
+
       var count = 0
 	  var limit = document.getElementById("GroupCount").value;
       var yElement = document.getElementById("YID");
@@ -467,70 +470,79 @@
       var dElement = document.getElementById("DID");
       var Codes = document.getElementById("Codes").options;
       var AccNos = document.getElementById("AccNos").options;
-	  
+	  var chm = "N"
+	  var chd = "N"
       //年長度
-	  for (var i = 0; i < yElement.length; i++) {
-		//月長度
-        for (var j = 0; j < mElement.length; j++) {
-          //if (i === 0 && j < 10) { continue; } //重11開始
-          //20天一個循環
-		  for (var k = 0; k < 20; k++) {
-            Exp = yElement.options[i].value + mElement.options[j].value + dElement.options[k].value;
-            for (var l = 0; l < AccNos.length; l++) {
+	  //for (var i = 0; i < yElement.length; i++) {
+      //月長度
+      for (var j = 0; j < mElement.length; j++) {
+		//從指定月份開始執行
+		if (chm == "N"){
+		  if (mElement.value != mElement.options[j].value) { continue; } else { chm = "Y"; }
+		}
+        //if (i === 0 && j < 10) { continue; } //重11開始
+        //25天一個循環
+		for (var k = 0; k < 25; k++) {
+		  //從指定天數開始執行
+		  if (chd == "N"){
+		    if (dElement.value != dElement.options[k].value) { continue; } else { chd = "Y"; }
+		  }
+          Exp = yElement.value + mElement.options[j].value + dElement.options[k].value;
+          for (var l = 0; l < AccNos.length; l++) {
 
-              var S1 = Exp + Codes[l].value
-              var S2 = AccNos[l].value.padEnd(16, '0');
-              var YM = document.searchbox.Prefix.value.padEnd(4, '0');
-              var VA = ("000000000" + document.searchbox.Amount.value).substr(-9, 9);
+            var S1 = Exp + Codes[l].value
+            var S2 = AccNos[l].value.padEnd(16, '0');
+            var YM = document.searchbox.Prefix.value.padEnd(4, '0');
+            var VA = ("000000000" + document.searchbox.Amount.value).substr(-9, 9);
 
 
-              document.getElementById('instructions').style.display = "none";
+            document.getElementById('instructions').style.display = "none";
 
-              odd = parseFloat(numerify(S1.charAt(0))) + parseFloat(numerify(S1.charAt(2))) + parseFloat(numerify(S1.charAt(4))) + parseFloat(numerify(S1.charAt(6))) + parseFloat(numerify(S1.charAt(8))) + parseFloat(numerify(S2.charAt(0))) + parseFloat(numerify(S2.charAt(2))) + parseFloat(numerify(S2.charAt(4))) + parseFloat(numerify(S2.charAt(6))) + parseFloat(numerify(S2.charAt(8))) + parseFloat(numerify(S2.charAt(10))) + parseFloat(numerify(S2.charAt(12))) + parseFloat(numerify(S2.charAt(14))) + parseFloat(numerify(YM.charAt(0))) + parseFloat(numerify(YM.charAt(2))) + parseFloat(numerify(VA.charAt(0))) + parseFloat(numerify(VA.charAt(2))) + parseFloat(numerify(VA.charAt(4))) + parseFloat(numerify(VA.charAt(6))) + parseFloat(numerify(VA.charAt(8)));
+            odd = parseFloat(numerify(S1.charAt(0))) + parseFloat(numerify(S1.charAt(2))) + parseFloat(numerify(S1.charAt(4))) + parseFloat(numerify(S1.charAt(6))) + parseFloat(numerify(S1.charAt(8))) + parseFloat(numerify(S2.charAt(0))) + parseFloat(numerify(S2.charAt(2))) + parseFloat(numerify(S2.charAt(4))) + parseFloat(numerify(S2.charAt(6))) + parseFloat(numerify(S2.charAt(8))) + parseFloat(numerify(S2.charAt(10))) + parseFloat(numerify(S2.charAt(12))) + parseFloat(numerify(S2.charAt(14))) + parseFloat(numerify(YM.charAt(0))) + parseFloat(numerify(YM.charAt(2))) + parseFloat(numerify(VA.charAt(0))) + parseFloat(numerify(VA.charAt(2))) + parseFloat(numerify(VA.charAt(4))) + parseFloat(numerify(VA.charAt(6))) + parseFloat(numerify(VA.charAt(8)));
 
-              even = parseFloat(numerify(S1.charAt(1))) + parseFloat(numerify(S1.charAt(3))) + parseFloat(numerify(S1.charAt(5))) + parseFloat(numerify(S1.charAt(7))) + parseFloat(numerify(S2.charAt(1))) + parseFloat(numerify(S2.charAt(3))) + parseFloat(numerify(S2.charAt(5))) + parseFloat(numerify(S2.charAt(7))) + parseFloat(numerify(S2.charAt(9))) + parseFloat(numerify(S2.charAt(11))) + parseFloat(numerify(S2.charAt(13))) + parseFloat(numerify(S2.charAt(15))) + parseFloat(numerify(YM.charAt(1))) + parseFloat(numerify(YM.charAt(3))) + parseFloat(numerify(VA.charAt(1))) + parseFloat(numerify(VA.charAt(3))) + parseFloat(numerify(VA.charAt(5))) + parseFloat(numerify(VA.charAt(7)));
+            even = parseFloat(numerify(S1.charAt(1))) + parseFloat(numerify(S1.charAt(3))) + parseFloat(numerify(S1.charAt(5))) + parseFloat(numerify(S1.charAt(7))) + parseFloat(numerify(S2.charAt(1))) + parseFloat(numerify(S2.charAt(3))) + parseFloat(numerify(S2.charAt(5))) + parseFloat(numerify(S2.charAt(7))) + parseFloat(numerify(S2.charAt(9))) + parseFloat(numerify(S2.charAt(11))) + parseFloat(numerify(S2.charAt(13))) + parseFloat(numerify(S2.charAt(15))) + parseFloat(numerify(YM.charAt(1))) + parseFloat(numerify(YM.charAt(3))) + parseFloat(numerify(VA.charAt(1))) + parseFloat(numerify(VA.charAt(3))) + parseFloat(numerify(VA.charAt(5))) + parseFloat(numerify(VA.charAt(7)));
 
-              C1 = odd % 11;
-              C2 = even % 11;
+            C1 = odd % 11;
+            C2 = even % 11;
 
-              if (isNaN(C1) || isNaN(C2)) {
-                alert('繳費資料僅可輸入英數字，請重新輸入！');
+            if (isNaN(C1) || isNaN(C2)) {
+              alert('繳費資料僅可輸入英數字，請重新輸入！');
+            } else {
+
+              if (C1 == 10) {
+                C3 = "B";
+              } else if (C1 == 0) {
+                C3 = "A";
               } else {
-
-                if (C1 == 10) {
-                  C3 = "B";
-                } else if (C1 == 0) {
-                  C3 = "A";
-                } else {
-                  C3 = C1;
-                }
+                C3 = C1;
+              }
 
 
-                if (C2 == 10) {
-                  C4 = "Y";
-                } else if (C2 == 0) {
-                  C4 = "X";
-                } else {
-                  C4 = C2;
-                }
+              if (C2 == 10) {
+                C4 = "Y";
+              } else if (C2 == 0) {
+                C4 = "X";
+              } else {
+                C4 = C2;
+              }
 
-                var S3 = YM + C3 + C4 + VA;
+              var S3 = YM + C3 + C4 + VA;
 
-                var L1 = "https://chart.googleapis.com/chart?cht=qr&chs=180x180&chl=" + S1;
-                var L2 = "https://chart.googleapis.com/chart?cht=qr&chs=180x180&chl=" + S2;
-                var L3 = "https://chart.googleapis.com/chart?cht=qr&chs=180x180&chl=" + S3;
+              var L1 = "https://chart.googleapis.com/chart?cht=qr&chs=180x180&chl=" + S1;
+              var L2 = "https://chart.googleapis.com/chart?cht=qr&chs=180x180&chl=" + S2;
+              var L3 = "https://chart.googleapis.com/chart?cht=qr&chs=180x180&chl=" + S3;
 
 
-                count += 1
-                if (count > limit*20) { break; } //1組20張
+              count += 1
+              if (count > limit*20) { break; } //1組20張
 				
 				//紀錄條碼連結
 				urll.push("https://7rilozmxuejfz0c4totngw.on.drv.tw/website/barcode.html?id1="+S1+"&id2="+S2+"&id3="+S3);
 				
 				var container = document.createElement("div");
 				container.style.styleFloat = 'left';
-				container.setAttribute("style", "padding: 15px 0px 15px 0px;margin: 0px;width: calc(25% - 2px);border:1px solid black;float:left; text-align: center;");
-                
+				container.setAttribute("style", "padding: 15px 0px 15px 0px;margin: 0px;width: calc(20% - 2px);border:1px solid black;float:left; text-align: center;");
+              
 				//條碼連結
 				var elemDiv0 = document.createElement("a");
 				elemDiv0.setAttribute("id", "href");
@@ -544,44 +556,44 @@
 				
 				//條碼
 				var elemDiv1 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                elemDiv1.setAttribute('id', 'bar' + S1);
-                var elemDiv2 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                elemDiv2.setAttribute('id', 'bar' + S2 );
-                var elemDiv3 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                elemDiv3.setAttribute('id', 'bar' + S3 );
-				container.appendChild(elemDiv1);
-				container.appendChild(elemDiv2);
-				container.appendChild(elemDiv3);
-				document.getElementById('bb').appendChild(container);
+              elemDiv1.setAttribute('id', 'bar' + S1);
+              var elemDiv2 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+              elemDiv2.setAttribute('id', 'bar' + S2 );
+              var elemDiv3 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+              elemDiv3.setAttribute('id', 'bar' + S3 );
+			  container.appendChild(elemDiv1);
+			  container.appendChild(elemDiv2);
+			  container.appendChild(elemDiv3);
+			  document.getElementById('H3').appendChild(container);
 
-                JsBarcode("#bar" + S1, S1, {
-                  width: 1,
-                  height: 40,
-                  fontSize: 14,
-                  background: "#FFE7CD",
-                });
-                JsBarcode("#bar" + S2, S2, {
-                  width: 1,
-                  height: 40,
-                  fontSize: 14,
-                  background: "#FFE7CD",
-                });
-                JsBarcode("#bar" + S3, S3, {
-                  width: 1,
-                  height: 40,
-                  fontSize: 14,
-                  background: "#FFE7CD",
-                });
+              JsBarcode("#bar" + S1, S1, {
+                width: 1,
+                height: 40,
+                fontSize: 14,
+                background: "#FFE7CD",
+              });
+              JsBarcode("#bar" + S2, S2, {
+                width: 1,
+                height: 40,
+                fontSize: 14,
+                background: "#FFE7CD",
+              });
+              JsBarcode("#bar" + S3, S3, {
+                width: 1,
+                height: 40,
+                fontSize: 14,
+                background: "#FFE7CD",
+              });
 
-                document.getElementById('bb').style.display = "block";
-                window.location.href = "#bb";
+              document.getElementById('bb').style.display = "block";
+              window.location.href = "#bb";
 
-                /*showWindow();*/
-              }
+              /*showWindow();*/
             }
           }
         }
       }
+      //}
 	  if(urll.length > 0){
 	    var elemDiv999 = document.createElement("form");
 	    elemDiv999.setAttribute("name", "href999");
@@ -650,8 +662,9 @@
 <body bgcolor="#FFE7CD" onload="ChangeYear()"
   bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWllZ29tY29uIiwiYWRibG9ja2VyU3RhdHVzIjp7IkRJU1BMQVkiOiJkaXNhYmxlZCIsIkZBQ0VCT09LIjoiZGlzYWJsZWQiLCJUV0lUVEVSIjoiZGlzYWJsZWQiLCJSRURESVQiOiJkaXNhYmxlZCJ9LCJ2ZXJzaW9uIjoiMS45LjAiLCJzY29yZSI6MTA5MDB9XQ==">
   <h2>
-    <p align="center" class="title">7-11 OPENPOINT 快速繳費產生器(改自J大條碼產生器  原始網址: https://i-tw.org/twpay/cvs.html</p>
+    <p align="center" class="title">7-11 OPENPOINT 快速繳費產生器(改自J大條碼產生器  原始網址: https://i-tw.org/twpay/cvs.html)</p>
   </h2>
+  <h3><p align="center" class="title1">Powered by SolomonK, Beng, LaLa</p></h3>
   <!-----------------------系統 code 開始//----------------------->
 
   <div id="select_000" style="" bis_skin_checked="1">
@@ -713,14 +726,8 @@
           <option value="23">23</option>
           <option value="24">24</option>
           <option value="25">25</option>
-          <option value="26">26</option>
-          <option value="27">27</option>
-          <option value="28">28</option>
-          <option value="29">29</option>
-          <option value="30">30</option>
-          <option value="31">31</option>
           <option value="99" id="D99" disabled="" style="display:none; ">99</option>
-        </select>日<small>(必填)</small><font color="#000099">產生組數：<input style="width: 100px;" placeholder="預設1組20張" id='GroupCount' required="" type="text" oninput="this.value=
+        </select>日<small>(必填)</small><font color="#000099">產生組數：<input style="width: 100px;" placeholder="預設1組25張" id='GroupCount' required="" type="text" oninput="this.value=
             this.value.toUpperCase()" value="1"></font><br><br>
         <b>
           <font color="#000099">費用代碼： </font>
@@ -751,14 +758,21 @@
       </div>
     </form>
     <div id="bb" style="display:none;" bis_skin_checked="1">
-      <center><b><br><br>= = = = = = =<br><br><br>
-          <font color="#000066" size="5">超 商 專 用 繳 費 條
-            碼</font>
-        </b><br><br><br><br><br><br>
+      <center>
+	    <b>
+		  <br><br>= = = = = = =<br><br><br>
+          <font color="#000066" size="5">超 商 專 用 繳 費 條 碼</font>
+        </b>
+		<br><br><br><br><br><br>
         <div id="H2"></div>
+		<br>
+		<div id="H3"></div>
       </center><br><br><br>
     </div>
-
+	<br>
+	<div>
+		<span>Copyright © 2024 蔥花小夥伴 All Rights Reserved.</span>
+	</div>
     <center>
       <div class="entry" bis_skin_checked="1"><small>
           <!--<a href="javascript:void(0)" onClick="document.getElementById('eula').style.display='block';">免責聲明</a>　//--><a
