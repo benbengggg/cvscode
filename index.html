@@ -480,6 +480,7 @@
 		if (chm == "N"){
 		  if (mElement.value != mElement.options[j].value) { continue; } else { chm = "Y"; }
 		}
+		if (mElement.options[j].value == "99") { continue; }
         //if (i === 0 && j < 10) { continue; } //重11開始
         //25天一個循環
 		for (var k = 0; k < 25; k++) {
@@ -487,6 +488,7 @@
 		  if (chd == "N"){
 		    if (dElement.value != dElement.options[k].value) { continue; } else { chd = "Y"; }
 		  }
+		  if (dElement.options[k].value == "99") { continue; }
           Exp = yElement.value + mElement.options[j].value + dElement.options[k].value;
           for (var l = 0; l < AccNos.length; l++) {
 
@@ -534,14 +536,14 @@
 
 
               count += 1
-              if (count > limit*20) { break; } //1組20張
+              if (count > limit*25) { break; } //1組25張
 				
 				//紀錄條碼連結
 				urll.push("https://7rilozmxuejfz0c4totngw.on.drv.tw/website/barcode.html?id1="+S1+"&id2="+S2+"&id3="+S3);
 				
 				var container = document.createElement("div");
 				container.style.styleFloat = 'left';
-				container.setAttribute("style", "padding: 15px 0px 15px 0px;margin: 0px;width: calc(20% - 2px);border:1px solid black;float:left; text-align: center;");
+				container.setAttribute("style", "padding: 15px 0px 15px 0px;margin: 0px;width: calc("+document.querySelector('[name=size]:checked').value+"% - 2px);border:1px solid black;float:left; text-align: center;");
               
 				//條碼連結
 				var elemDiv0 = document.createElement("a");
@@ -562,7 +564,9 @@
               var elemDiv3 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
               elemDiv3.setAttribute('id', 'bar' + S3 );
 			  container.appendChild(elemDiv1);
+			  container.appendChild(document.createElement("br"));
 			  container.appendChild(elemDiv2);
+			  container.appendChild(document.createElement("br"));
 			  container.appendChild(elemDiv3);
 			  document.getElementById('H3').appendChild(container);
 
@@ -607,6 +611,7 @@
 		elemDiv888.setAttribute("class", "button button-blue2");
 		elemDiv888.setAttribute("id", "sb2");
 		elemDiv888.setAttribute("value", "一次開啟全部條碼連結");
+		
 		document.getElementById('href999').appendChild(elemDiv888);
 
 
@@ -747,7 +752,14 @@
         <b>
           <font color="#000099">繳費金額： </font>
         </b><input style="width: 200px;" maxlength="7" max="20000" min="1" name="Amount" type="number" pattern="[0-9]*"
-          required="" placeholder="上限20,000元" value="1"> <small>(必填)</small>
+          required="" placeholder="上限20,000元" value="1"> <small>(必填)</small><br><br>
+		<b>
+		  <font color="#000099">每行顯示條碼數量： </font>
+		</b>
+		<input type="radio" name="size" value="100" checked>1張
+        <input type="radio" name="size" value="50">2張
+        <input type="radio" name="size" value="25">4張
+        <input type="radio" name="size" value="20">5張
       </p>
       <p align="center">
         <!--<input type="checkbox" id="agree" name="agree"><label for="agree"> 我已經閱讀且同意<a href="javascript:void(0)" onClick="document.getElementById('eula').style.display='block';window.location.href='#eula';">注意事項</a>！</label><BR><BR>//--><input
